@@ -1,11 +1,12 @@
 const markerReducer = (state, action) => {
-  const { type, data } = action;
+  const { type, data, index } = action;
   switch (type) {
     case "add":
       return [...state, data];
-    // case "remove":
-    //     state
-    //   return {};
+    case "remove":
+      let res = [...state];
+      res.splice(index, 1);
+      return res;
     default:
       return [...state];
   }

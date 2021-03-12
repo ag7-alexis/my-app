@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { useMarkerContext } from "../contexts/MarkerContext";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
+import AddMarkers from "./AddMarkers";
+import CenterUserLocation from "./CenterUserLocation";
+import { useMarkerContext } from "../../contexts/MarkerContext";
 import L from "leaflet";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -16,25 +24,11 @@ L.Marker.prototype.options.icon = DefaultIcon;
 const TILE_LAYER = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 const Map = () => {
-  const { state, dispatch } = useMarkerContext();
-  // geolo
-  //useEffect(() => {}, []);
-
-  // add markers
-  const Markers = () => {
-    useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        dispatch({ type: "add", data: [lat, lng] });
-        console.log(state);
-      },
-    });
-    return null;
-  };
+  const { state } = useMarkerContext();
+  // const [userPosition, setUserPosition] = useState([51.505, -0.09]);
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
       zoom={13}
       scrollWheelZoom={false}
       style={{
@@ -43,16 +37,16 @@ const Map = () => {
       }}
     >
       <TileLayer attribution={""} url={TILE_LAYER} />
-      {state?.map((marker) => {
+      {state?.map((marker, index) => {
         return (
           <Marker
-            key={`${marker}-marker`}
+            key={`${index}-marker`}
             position={[marker[0], marker[1]]}
           ></Marker>
         );
       })}
-
-      <Markers />
+      <CenterUserLocation />
+      <AddMarkers />
     </MapContainer>
   );
 };
