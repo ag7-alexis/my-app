@@ -23,9 +23,16 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 const TILE_LAYER = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
+const customIcon = (index) => {
+  return L.icon({
+    iconSize: [50, 50],
+    iconAnchor: [30, 41],
+    iconUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index}.png`,
+  });
+};
+
 const Map = () => {
   const { state } = useMarkerContext();
-  // const [userPosition, setUserPosition] = useState([51.505, -0.09]);
 
   return (
     <MapContainer
@@ -42,11 +49,13 @@ const Map = () => {
           <Marker
             key={`${index}-marker`}
             position={[marker[0], marker[1]]}
+            icon={customIcon(index + 1)}
           ></Marker>
         );
       })}
-      <CenterUserLocation />
+
       <AddMarkers />
+      <CenterUserLocation />
     </MapContainer>
   );
 };
