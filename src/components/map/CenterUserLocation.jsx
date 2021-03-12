@@ -24,7 +24,10 @@ const CenterUserLocation = () => {
     <>
       <button
         style={{ zIndex: "500", position: "absolute", right: "0" }}
-        onClick={() => setIsGeoloc(!isGeoloc)}
+        onClickCapture={(e) => {
+          e.nativeEvent.stopPropagation();
+          setIsGeoloc(!isGeoloc);
+        }}
       >
         Me géolocaliser
       </button>
