@@ -32,7 +32,7 @@ const Map = () => {
       zoom={13}
       scrollWheelZoom={false}
       style={{
-        width: 500,
+        width: "100%",
         height: 500,
       }}
     >
